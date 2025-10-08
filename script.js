@@ -1,85 +1,60 @@
-// Array to store donors
+// Get form and table body
+const donorForm = document.getElementById('donorForm');
+const donorTableBody = document.querySelector('#donorTable tbody');
+
+// Initialize an array to store donors
 let donors = [];
 
-// Sample blood units data
-let bloodUnits = {
-    'A+': 10,
-    'A-': 8,
-    'B+': 12,
-    'B-': 7,
-    'O+': 15,
-    'O-': 5,
-    'AB+': 4,
-    'AB-': 3
-};
-
-// Function to display donors
-function displayDonors() {
-    const tbody = document.getElementById('donorsTableBody');
-    tbody.innerHTML = ''; // Clear existing data
-
-    donors.forEach(donor => {
-        const row = document.createElement('tr');
-
-        const nameTd = document.createElement('td');
-        nameTd.textContent = donor.name;
-        row.appendChild(nameTd);
-
-        const bloodGroupTd = document.createElement('td');
-        bloodGroupTd.textContent = donor.bloodGroup;
-        row.appendChild(bloodGroupTd);
-
-        const ageTd = document.createElement('td');
-        ageTd.textContent = donor.age;
-        row.appendChild(ageTd);
-
-        tbody.appendChild(row);
-    });
-}
-
-// Function to display blood units
-function displayBloodUnits() {
-    const ul = document.getElementById('bloodUnitsList');
-    ul.innerHTML = '';
-
-    for (const [group, units] of Object.entries(bloodUnits)) {
-        const li = document.createElement('li');
-        li.textContent = `${group}: ${units} units`;
-        ul.appendChild(li);
-    }
-}
-
 // Handle form submission
-document.getElementById('donorForm').addEventListener('submit', function(e) {
+donorForm.addEventListener('submit', function(e) {
     e.preventDefault();
 
+    // Get input values
     const name = document.getElementById('name').value.trim();
-    const bloodGroup = document.getElementById('bloodGroup').value.trim().toUpperCase();
     const age = document.getElementById('age').value.trim();
+    const bloodGroup = document.getElementById('bloodGroup').value;
+    const contact = document.getElementById('contact').value.trim();
+    const location = document.getElementById('location').value.trim();
 
-    if (name && bloodGroup && age) {
-        // Add donor to array
-        donors.push({ name, bloodGroup, age });
-
-        // Update donors list
-        displayDonors();
-
-        // Clear form
-        document.getElementById('donorForm').reset();
-
-        // Update blood units if needed
-        if (bloodUnits[bloodGroup] !== undefined) {
-            bloodUnits[bloodGroup] += 1; // Assuming each donor adds 1 unit
-        } else {
-            bloodUnits[bloodGroup] = 1;
-        }
-
-        displayBloodUnits();
+    // Basic validation
+    if (!name || !age || !bloodGroup || !contact || !location) {
+        alert('Please fill all fields.');
+        return;
     }
+
+    if (!/^\d{10}$/.test(contact)) {
+        alert('Please enter a valid 10-digit contact number.');
+        return;
+    }
+
+    // Create donor object
+    const donor = {
+        name,
+        age,
+        bloodGroup,
+        contact,
+        location
+    };
+
+    // Add to donors array
+    donors.push(donor);
+
+    // Update table
+    addDonorToTable(donor);
+
+    // Reset form
+    donorForm.reset();
 });
 
-// Initial display
-window.onload = function() {
-    displayDonors();
-    displayBloodUnits();
-};
+// Function to add donor to table
+function addDonorToTable(donor) {
+    const row = document.createElement('tr');
+
+    for (const key in donor) {
+        const cell = document.createElement('td');
+        cell.textContent = donor[key];
+        row.appendChild(cell);
+    }
+
+    donorTableBody.appendChild(row);
+}
