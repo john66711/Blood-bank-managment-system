@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Blood Bank Management System</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <h1>Blood Bank Management System</h1>
+
+    <div class="container">
+        <h2>Add Donor</h2>
+        <form id="donorForm">
+            <input type="text" id="name" placeholder="Name" required />
+            <input type="text" id="bloodGroup" placeholder="Blood Group" required />
+            <input type="number" id="age" placeholder="Age" required />
+            <button type="submit">Add Donor</button>
+        </form>
+    </div>
+
+    <div class="donors-list">
+        <h2>Donors List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Blood Group</th>
+                    <th>Age</th>
+                </tr>
+            </thead>
+            <tbody id="donorsTableBody">
+                <!-- Donor rows will appear here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="blood-units">
+        <h2>Available Blood Units</h2>
+        <ul id="bloodUnitsList">
+            <!-- Blood units info will appear here -->
+        </ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
